@@ -1,6 +1,6 @@
 # Game of kings
 
-A game, hosted by platform Vk Mini Apps.
+A app, hosted by platform Vk Mini Apps.
 
 ## Instructions
 
