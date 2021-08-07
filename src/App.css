@@ -1,0 +1,7 @@
+* {
+    user-select: none;
+}
+
+.SimpleCell, .Card, .Banner, .Button {
+    border-radius: 10px;
+}
