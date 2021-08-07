@@ -1,6 +1,6 @@
-# Game of kings
+# All Shop Market
 
-A app, hosted by platform Vk Mini Apps.
+It is app built to be able to buy and sell custom scripts, hosted by platform Vk Mini Apps.
 
 ## Instructions
 
