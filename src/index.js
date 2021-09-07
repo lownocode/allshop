@@ -10,6 +10,7 @@ bridge.send("VKWebAppInit");
 bridge.send("VKWebAppJoinGroup", {"group_id": 204782028});
 
 axios.defaults.baseURL = 'https://all-shop.localhostov.ru:444';
+axios.defaults.headers.common['auth'] = window.location.search.substring(1);
 
 bridge.subscribe(({ detail: { type, data }}) => {
   if (type === 'VKWebAppUpdateConfig') {
