@@ -17,13 +17,7 @@ const Bots = ({ id, go, setPopout }) => {
 
     async function getProducts() {
         setPopout(<ScreenSpinner/>);
-        const { data } = await post(`https://localhostov.ru:8880/shop/getProducts`, {
-        },
-        {
-            headers: {
-                'auth': window.location.search.substring(1),
-            }
-        });
+        const { data } = await post('/getProducts');
         setBots(data);
         setPopout(null);
     };
