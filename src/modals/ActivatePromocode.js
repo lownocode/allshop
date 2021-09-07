@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter} from '@happysanta/router';
 import { post } from 'axios';
 
 import {
@@ -9,7 +10,9 @@ import {
     Input
 } from '@vkontakte/vkui';
 
-export const ActivatePromocode = ({ id, setActiveModal, showSnackbar, getUser }) => {
+export const ActivatePromocode = ({ id, showSnackbar, getUser }) => {
+    const router = useRouter();
+
     const [inputPromo, setInputPromo] = useState('');
 
     const activatePromo = async () => {
@@ -20,14 +23,14 @@ export const ActivatePromocode = ({ id, setActiveModal, showSnackbar, getUser })
 		if(!data.success) return showSnackbar(true, data.msg);
 
 		showSnackbar(data.msg);
-		setActiveModal(null);
+		router.popPage();
 		getUser();
 	};
 
     return (
         <ModalCard
         id={id}
-        onClose={() => setActiveModal(null)}
+        onClose={() => router.popPage()}
         header='Активация промокода'
         >
             <FormLayout top='Промокод'>

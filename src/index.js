@@ -3,6 +3,10 @@ import ReactDOM from "react-dom";
 import bridge from "@vkontakte/vk-bridge";
 import axios from 'axios';
 
+import { router } from './routers';
+import { RouterContext } from "@happysanta/router";
+import { ConfigProvider } from "@vkontakte/vkui";
+
 import App from "./App";
 
 // Init VK  Mini App
@@ -20,4 +24,8 @@ bridge.subscribe(({ detail: { type, data }}) => {
   }
 });
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<RouterContext.Provider value={router}>
+  <ConfigProvider isWebView={true}>
+    <App />
+  </ConfigProvider>
+</RouterContext.Provider>, document.getElementById("root"));

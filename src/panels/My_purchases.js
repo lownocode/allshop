@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from '@happysanta/router';
 
 import {
     Panel,
@@ -10,10 +11,12 @@ import {
     Icon16SadFaceOutline 
 } from '@vkontakte/icons';
 
-const My_purchases = ({ id, go, user }) => {
+const My_purchases = ({ id, user }) => {
+    const router = useRouter();
+
     return(
         <Panel id={id}>
-            <PanelHeader left={<PanelHeaderBack onClick={() => go('home')}/>}>Мои покупки</PanelHeader>
+            <PanelHeader left={<PanelHeaderBack onClick={() => router.popPage()}/>}>Мои покупки</PanelHeader>
             {user.purchases.length < 1 ? 
             <Placeholder
             stretched

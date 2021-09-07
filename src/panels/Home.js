@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from '@happysanta/router';
 
 import { 
 	Panel, 
@@ -24,7 +25,20 @@ import {
 	Icon28ArrowUpCircleOutline 
 } from '@vkontakte/icons';
 
-const Home = ({ id, go, user, setActiveModal, getUser }) => {
+import {
+	MODAL_BALANCE,
+
+	PAGE_MY_PURCHASES,
+	PAGE_HISTORY,
+	PAGE_ADMIN,
+	PAGE_SUGGEST_SCRIPT,
+	PAGE_APPS,
+	PAGE_BOTS
+} from '../routers';
+
+const Home = ({ id, user, getUser }) => {
+	const router = useRouter();
+
 	const [isFetching, setFetching] = useState(false);
 
 	const onRefresh = () => {
@@ -44,10 +58,12 @@ const Home = ({ id, go, user, setActiveModal, getUser }) => {
 			<Button
 			before={<Icon36CoinsStacks2Outline width={20} height={20}/>}
 			mode='secondary'
-			onClick={() => setActiveModal('balance')}
+			onClick={() => router.pushModal(MODAL_BALANCE)}
 			>{deformNumber(user.balance)} ₽</Button>
 		}
-		>Главная</PanelHeader>
+		>
+			Главная
+		</PanelHeader>
 		<PullToRefresh isFetching={isFetching} onRefresh={onRefresh}>
 		<Banner
 		header={<div style={{display: 'flex', fontWeight: 'bold'}}>
@@ -57,7 +73,7 @@ const Home = ({ id, go, user, setActiveModal, getUser }) => {
 		subheader='Мини-приложения на разный вкус'
 		actions={<Button
 		style={{background: '#fff', color: '#000'}}
-		onClick={() => go('apps')}
+		onClick={() => router.pushPage(PAGE_APPS)}
 		>Открыть</Button>}
         mode='image'
         background={
@@ -82,7 +98,7 @@ const Home = ({ id, go, user, setActiveModal, getUser }) => {
 		subheader='Лучшие боты ВК'
 		actions={<Button
 		style={{background: '#fff', color: '#000'}}
-		onClick={() => go('bots')}
+		onClick={() => router.pushPage(PAGE_BOTS)}
 		>Открыть</Button>}
         mode='image'
         background={
@@ -114,7 +130,7 @@ const Home = ({ id, go, user, setActiveModal, getUser }) => {
 			<Card>
 				<SimpleCell
 				style={{color: '#32CD32'}}
-				onClick={() => go('my_purchases')}
+				onClick={() => router.pushPage(PAGE_MY_PURCHASES)}
 				target='_blank'
 				before={<Icon28MarketOutline fill='#32CD32' width={24} height={24} />}
 				after={<Icon24ChevronRight fill='#32CD32'/>}
@@ -126,7 +142,7 @@ const Home = ({ id, go, user, setActiveModal, getUser }) => {
 			<Card>
 				<SimpleCell
 				style={{color: '#6A5ACD'}}
-				onClick={() => go('history')}
+				onClick={() => router.pushPage(PAGE_HISTORY)}
 				target='_blank'
 				before={<Icon243SquareOutline fill='#6A5ACD' width={24} height={24} />}
 				after={<Icon24ChevronRight fill='#6A5ACD'/>}
@@ -138,7 +154,7 @@ const Home = ({ id, go, user, setActiveModal, getUser }) => {
 			<Card>
 				<SimpleCell
 				style={{color: '#FF8C00'}}
-				onClick={() => go('suggestscript')}
+				onClick={() => router.pushPage(PAGE_SUGGEST_SCRIPT)}
 				target='_blank'
 				before={<Icon28ArrowUpCircleOutline fill='#FF8C00' width={24} height={24} />}
 				after={<Icon24ChevronRight fill='#FF8C00'/>}
@@ -150,7 +166,7 @@ const Home = ({ id, go, user, setActiveModal, getUser }) => {
 			{user.admin && <Card>
 				<SimpleCell
 				style={{color: '#A52A2A'}}
-				onClick={() => go('admin')}
+				onClick={() => router.pushPage(PAGE_ADMIN)}
 				target='_blank'
 				before={<Icon24WarningTriangleOutline fill='#A52A2A' width={24} height={24} />}
 				after={<Icon24ChevronRight fill='#A52A2A'/>}

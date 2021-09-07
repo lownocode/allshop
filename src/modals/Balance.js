@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter} from '@happysanta/router';
 
 import {
     ModalCard,
@@ -15,7 +16,14 @@ import {
     Icon24MoneySendOutline
 } from '@vkontakte/icons';
 
-export const Balance = ({ id, setActiveModal, user }) => {
+import {
+    MODAL_ACTIVATE_PROMOCODE, 
+    MODAL_WITHDRAW
+} from '../routers';
+
+export const Balance = ({ id, user }) => {
+    const router = useRouter();
+
     const deformNumber = (number) => {
 		return number.toLocaleString('ru-RU');
 	};
@@ -23,13 +31,13 @@ export const Balance = ({ id, setActiveModal, user }) => {
     return (
         <ModalCard
         id={id}
-        onClose={() => setActiveModal(null)}
+        onClose={() => router.popPage()}
         >
             <Footer style={{margin: 0}}>Ваш баланс: {deformNumber(user.balance)} ₽</Footer>
             <Card style={{margin: '5px'}}>
                 <SimpleCell
                 style={{color: '#32CD32'}}
-                onClick={() => setActiveModal('activate-promo')}
+                onClick={() => router.pushModal(MODAL_ACTIVATE_PROMOCODE)}
                 before={<Icon28AddAwardOutline width={24} height={24} fill='#32CD32'/>}
                 >
                     <b>Активировать промокод</b>
@@ -68,7 +76,7 @@ export const Balance = ({ id, setActiveModal, user }) => {
             subheader='Вывод на любой удобный для Вас кошелёк'
             actions={<Button
             style={{background: '#fff', color: '#000'}}
-            onClick={() => setActiveModal('withdraw')}
+            onClick={() => router.pushModal(MODAL_WITHDRAW)}
             target='_blank'
             >Вывести</Button>}
             mode='image'

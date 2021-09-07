@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from '@happysanta/router';
 import { post } from 'axios';
 
 import {
@@ -12,7 +13,9 @@ import {
     ScreenSpinner
 } from '@vkontakte/vkui';
 
-const Bots = ({ id, go, setPopout }) => {
+const Bots = ({ id, setPopout }) => {
+    const router = useRouter();
+
     const [bots, setBots] = useState(null);
 
     async function getProducts() {
@@ -28,7 +31,7 @@ const Bots = ({ id, go, setPopout }) => {
 
     return(
         <Panel id={id}>
-            <PanelHeader left={<PanelHeaderBack onClick={() => go('home')}/>}>VK Боты</PanelHeader>
+            <PanelHeader left={<PanelHeaderBack onClick={() => router.popPage()}/>}>VK Боты</PanelHeader>
             <CardGrid size='l' style={{marginTop: 10}}>
                 {bots &&
                     bots.map(bot => {
@@ -58,7 +61,7 @@ const Bots = ({ id, go, setPopout }) => {
                                 </div>
                                 <div style={{textAlign: 'right', fontSize: 14, marginTop: -20}}>
                                     Автор: {bot.author_id != 0 ? 
-                                    <Link href={`https://vk.com/id${bot.author_id}`}>id${bot.author_id}</Link> : 
+                                    <Link href={`https://vk.com/id${bot.author_id}`}>@id{bot.author_id}</Link> : 
                                     <i style={{color: '#00cc00'}}>All Shop</i>}
                                 </div>
                                 </div>

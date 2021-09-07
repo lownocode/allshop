@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from '@happysanta/router';
 import { post } from 'axios';
 
 import {
@@ -11,7 +12,9 @@ import {
     Link
 } from '@vkontakte/vkui';
 
-const Apps = ({ id, go }) => {
+const Apps = ({ id }) => {
+    const router = useRouter();
+
     const [apps, setApps] = useState(null);
 
     const getProducts = async () => {
@@ -25,7 +28,10 @@ const Apps = ({ id, go }) => {
 
     return(
         <Panel id={id}>
-            <PanelHeader left={<PanelHeaderBack onClick={() => go('home')}/>}>Мини-приложения</PanelHeader>
+            <PanelHeader left={<PanelHeaderBack onClick={() => router.popPage()}/>}
+            >
+                Мини-приложения
+            </PanelHeader>
             <CardGrid size='l' style={{marginTop: 10}}>
             {apps &&
                     apps.map(app => {

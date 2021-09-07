@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useRouter } from '@happysanta/router';
+
 import { post } from 'axios';
 import { 
 	View, 
@@ -25,13 +27,30 @@ import History from './panels/History';
 import Admin from './panels/Admin';
 import SuggestScript from './panels/SuggestScript';
 
+import {
+	VIEW_MAIN,
+
+	MODAL_ACTIVATE_PROMOCODE,
+	MODAL_BALANCE,
+	MODAL_WITHDRAW,
+
+	PANEL_HOME,
+	PANEL_ADMIN,
+	PANEL_BOTS,
+	PANEL_APPS,
+	PANEL_HISTORY,
+	PANEL_MY_PURCHASES,
+	PANEL_SUGGEST_SCRIPT,
+} from './routers';
+
 import { Balance } from './modals/Balance';
 import { Withdraw } from './modals/Withdraw';
 import { ActivatePromocode } from './modals/ActivatePromocode';
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('home');
-	const [activeModal, setActiveModal] = useState(null);
+	const router = useRouter();
+	const location = useLocation();
+
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 	const [snackbar, setSnackbar] = useState(null);
 	const [user, setUser] = useState({
@@ -40,7 +59,7 @@ const App = () => {
 		admin: false
 	});
 
-	async function getUser() {
+	const getUser = async () => {
 		const { data } = await post('/getUser');
 
 		setUser(data);
@@ -50,10 +69,6 @@ const App = () => {
 	useEffect(() => {
 		getUser()
 	}, []);
-
-	const go = panel => {
-		setActivePanel(panel);
-	};
 
 	const showSnackbar = (error, text) => {
 		setSnackbar(
@@ -72,11 +87,22 @@ const App = () => {
 		)
 	};
 
-	const modal = (
-		<ModalRoot onClose={() => setActiveModal(null)} activeModal={activeModal}>
-			<Balance id='balance' setActiveModal={setActiveModal} user={user} />
-			<Withdraw id='withdraw' setActiveModal={setActiveModal} showSnackbar={showSnackbar} getUser={getUser} />
-			<ActivatePromocode id='activate-promo' setActiveModal={setActiveModal} showSnackbar={showSnackbar} getUser={getUser} />
+	const modals = (
+		<ModalRoot onClose={() => router.popPage()} activeModal={location.getModalId()}>
+			<Balance 
+			id={MODAL_BALANCE} 
+			user={user} 
+			/>
+			<Withdraw 
+			id={MODAL_WITHDRAW} 
+			showSnackbar={showSnackbar} 
+			getUser={getUser} 
+			/>
+			<ActivatePromocode 
+			id={MODAL_ACTIVATE_PROMOCODE} 
+			showSnackbar={showSnackbar} 
+			getUser={getUser} 
+			/>
 		</ModalRoot>
 	);
 
@@ -84,48 +110,46 @@ const App = () => {
 		<AdaptivityProvider>
 			<AppRoot>
 				{snackbar}
-				<View id={activePanel} activePanel={activePanel} modal={modal} popout={popout}>
+				<View 
+				id={VIEW_MAIN} 
+				activePanel={location.getViewActivePanel(VIEW_MAIN)} 
+				modal={modals} 
+				popout={popout}
+				onSwipeBack={() => router.popPage()}
+				>
 					<Home 
-					id='home' 
-					go={go} 
+					id={PANEL_HOME} 
 					user={user}
-					setActiveModal={setActiveModal}
 					getUser={getUser}
 					/>
 
 					<Apps
-					id='apps'
-					go={go}
+					id={PANEL_APPS}
 					/>
 
 					<Bots
-					id='bots'
-					go={go}
+					id={PANEL_BOTS}
 					setPopout={setPopout}
 					/>
 
 					<My_purchases
-					id='my_purchases'
-					go={go}
+					id={PANEL_MY_PURCHASES}
 					user={user}
 					/>
 
 					<History
-					id='history'
-					go={go}
+					id={PANEL_HISTORY}
 					user={user}
 					/>
 
 					<Admin
-					id='admin'
-					go={go}
+					id={PANEL_ADMIN}
 					showSnackbar={showSnackbar}
 					setPopout={setPopout}
 					/>
 
 					<SuggestScript
-					id='suggestscript'
-					go={go}
+					id={PANEL_SUGGEST_SCRIPT}
 					showSnackbar={showSnackbar}
 					/>
 				</View>

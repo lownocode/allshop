@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from '@happysanta/router';
 
 import {
     Panel,
@@ -15,11 +16,12 @@ import {
     Icon28AddAwardOutline
 } from '@vkontakte/icons';
 
-const History = ({ id, go, user }) => {
+const History = ({ id, user }) => {
+    const router = useRouter();
 
     return(
         <Panel id={id}>
-            <PanelHeader left={<PanelHeaderBack onClick={() => go('home')}/>}>История профиля</PanelHeader>
+            <PanelHeader left={<PanelHeaderBack onClick={() => router.popPage()}/>}>История профиля</PanelHeader>
             <Div>
                 {
                     user.history.map(history => {
