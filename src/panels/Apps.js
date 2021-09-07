@@ -14,15 +14,9 @@ import {
 const Apps = ({ id, go }) => {
     const [apps, setApps] = useState(null);
 
-    async function getProducts() {
-        const { data } = await post(`https://localhostov.ru:8880/shop/getProducts`, {
-        },
-        {
-            headers: {
-                'auth': window.location.search.substring(1),
-            }
-        });
-        setApps(data)
+    const getProducts = async () => {
+        const { data } = await post('/getProducts');
+        setApps(data);
     };
 
     useEffect(() => {

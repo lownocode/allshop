@@ -20,7 +20,7 @@ import {
     Icon16Done
 } from '@vkontakte/icons';
 
-const SuggestScript = ({ id, go, setSnackbar }) => {
+const SuggestScript = ({ id, go, showSnackbar }) => {
     const [titleNewProduct, setTitleNewProduct] = useState('');
     const [descriptionNewProduct, setDescriptionNewProduct] = useState('');
     const [typeNewProduct, setTypeNewProduct] = useState('');
@@ -28,36 +28,18 @@ const SuggestScript = ({ id, go, setSnackbar }) => {
     const [sourceNewProduct, setSourceNewProduct] = useState('');
     const [sumNewProduct, setSumNewProduct] = useState(null);
 
-
-    async function sendSuggest() {
-        const { data } = await post(`https://localhostov.ru:8880/shop/sendSuggest`, {
+    const sendSuggest = async () => {
+        const { data } = await post('/sendSuggest', {
             demo_link: demoLinkNewProduct,
             source: sourceNewProduct,
             type: typeNewProduct,
             sum: Number(sumNewProduct),
             description: descriptionNewProduct,
             title: titleNewProduct
-        },
-        {
-            headers: {
-                'auth': window.location.search.substring(1),
-            }
         });
-        if(!data.success) {
-            setSnackbar(
-                <Snackbar
-                onClose={() => setSnackbar(null)}
-                before={<Avatar size={25} style={{background: 'red'}}><Icon16Cancel fill='#fff'/></Avatar>}
-                >{data.msg}</Snackbar>
-            )
-        } else {
-            setSnackbar(
-                <Snackbar
-                onClose={() => setSnackbar(null)}
-                before={<Avatar size={25} style={{background: '#00cc00'}}><Icon16Done fill='#fff'/></Avatar>}
-                >{data.msg}</Snackbar>
-            )
-        }
+
+        if(!data.success) return showSnackbar(true, data.msg); 
+        showSnackbar(data.msg);
     };
     
     return(

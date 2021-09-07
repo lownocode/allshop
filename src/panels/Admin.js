@@ -9,21 +9,15 @@ import {
     Input,
     Textarea,
     Button,
-    Snackbar,
     NativeSelect,
     Header,
     Div,
-    Avatar,
     CardGrid,
     Card,
     SimpleCell,
 } from '@vkontakte/vkui';
-import { 
-    Icon16Cancel,
-    Icon16Done
-} from '@vkontakte/icons';
 
-const Admin = ({ id, go, setSnackbar }) => {
+const Admin = ({ id, go, showSnackbar }) => {
     const [offers, setOffers] = useState([]);
     const [info, setInfo] = useState({
         users_count: 0,
@@ -59,85 +53,35 @@ const Admin = ({ id, go, setSnackbar }) => {
         return text;
     }
 
-    async function getInfo() {
-        const { data } = await post(`https://localhostov.ru:8880/shop/admin.getInfo`, {
-        }, 
-        {
-            headers: {
-                'auth': window.location.search.substring(1)
-            }
-        });
-        if(data.success) {
-            setInfo(data)
-        }
+    const getInfo = async () => {
+        const { data } = await post('/admin.getInfo');
+        if(data.success) return setInfo(data);
     };
 
-    async function getOffers() {
-        const { data } = await post(`https://localhostov.ru:8880/shop/admin.getOffers`, {
-        }, 
-        {
-            headers: {
-                'auth': window.location.search.substring(1)
-            }
-        });
-        console.log(data);
+    const getOffers = async () => {
+        const { data } = await post('/admin.getOffers');
         setOffers(data);
     };
 
-    async function publishNewProduct() {
-        const { data } = await post(`https://localhostov.ru:8880/shop/admin.addProduct`, {
+    const publishNewProduct = async () => {
+        const { data } = await post('/admin.addProduct', {
             demo_link: demoLinkNewProduct,
             source: sourceNewProduct,
             type: typeNewProduct,
             sum: Number(sumNewProduct),
             description: descriptionNewProduct,
             title: titleNewProduct
-        },
-        {
-            headers: {
-                'auth': window.location.search.substring(1),
-            }
         });
-        if(!data.success) {
-            setSnackbar(
-                <Snackbar
-                onClose={() => setSnackbar(null)}
-                before={<Avatar size={25} style={{background: 'red'}}><Icon16Cancel fill='#fff'/></Avatar>}
-                >{data.msg}</Snackbar>
-            )
-        } else {
-            setSnackbar(
-                <Snackbar
-                onClose={() => setSnackbar(null)}
-                before={<Avatar size={25} style={{background: '#00cc00'}}><Icon16Done fill='#fff'/></Avatar>}
-                >{data.msg}</Snackbar>
-            )
-        }
+
+        if(!data.success) return showSnackbar(true, data.msg); 
+        showSnackbar(data.msg);
     };
 
-    async function reloadBackend() {
-        const { data } = await post(`https://localhostov.ru:8880/shop/admin.reloadBackend`, {
-        },
-        {
-            headers: {
-                'auth': window.location.search.substring(1),
-            }
-        });
-        if(!data.success) {
-            setSnackbar(
-                <Snackbar
-                onClose={() => setSnackbar(null)}
-                before={<Avatar size={25} style={{background: 'red'}}><Icon16Cancel fill='#fff'/></Avatar>}
-                >{data.msg}</Snackbar>
-            )
-        } else {
-            setSnackbar(
-                <Snackbar
-                onClose={() => setSnackbar(null)}
-                before={<Avatar size={25} style={{background: '#00cc00'}}><Icon16Done fill='#fff'/></Avatar>}
-                >{data.msg}</Snackbar>
-            )
-        }
+    const reloadBackend = () => {
+        const { data } = await post('/admin.reloadBackend');
+
+        if(!data.success) return showSnackbar(true, data.msg); 
+        showSnackbar(data.msg);
     };
 
     useEffect(() => {
