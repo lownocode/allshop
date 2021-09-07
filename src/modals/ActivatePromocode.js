@@ -22,7 +22,7 @@ export const ActivatePromocode = ({ id, showSnackbar, getUser }) => {
 
 		if(!data.success) return showSnackbar(true, data.msg);
 
-		showSnackbar(data.msg);
+		showSnackbar(false, data.msg);
 		router.popPage();
 		getUser();
 	};
