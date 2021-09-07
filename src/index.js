@@ -1,11 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import bridge from "@vkontakte/vk-bridge";
+import axios from 'axios';
+
 import App from "./App";
 
 // Init VK  Mini App
 bridge.send("VKWebAppInit");
 bridge.send("VKWebAppJoinGroup", {"group_id": 204782028});
+
+axios.defaults.baseURL = 'https://all-shop.localhostov.ru:444';
 
 bridge.subscribe(({ detail: { type, data }}) => {
   if (type === 'VKWebAppUpdateConfig') {
