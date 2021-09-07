@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from '@happysanta/router';
 import { post } from 'axios';
 
 import {
@@ -9,18 +10,14 @@ import {
     Input,
     Textarea,
     Button,
-    Snackbar,
     NativeSelect,
     Div,
-    Avatar,
     FormStatus
 } from '@vkontakte/vkui';
-import { 
-    Icon16Cancel,
-    Icon16Done
-} from '@vkontakte/icons';
 
-const SuggestScript = ({ id, go, showSnackbar }) => {
+const SuggestScript = ({ id, showSnackbar }) => {
+    const router = useRouter();
+
     const [titleNewProduct, setTitleNewProduct] = useState('');
     const [descriptionNewProduct, setDescriptionNewProduct] = useState('');
     const [typeNewProduct, setTypeNewProduct] = useState('');
@@ -39,12 +36,12 @@ const SuggestScript = ({ id, go, showSnackbar }) => {
         });
 
         if(!data.success) return showSnackbar(true, data.msg); 
-        showSnackbar(data.msg);
+        showSnackbar(false, data.msg);
     };
     
     return(
         <Panel id={id}>
-            <PanelHeader left={<PanelHeaderBack onClick={() => go('home')}/>}>Предложить скрипт</PanelHeader>
+            <PanelHeader left={<PanelHeaderBack onClick={() => router.popPage()}/>}>Предложить скрипт</PanelHeader>
             <FormItem>
             <FormStatus header="Обратите внимание">
                 После того, как вы предложите скрипт, он отправится на проверку модерации, и, если если всё в порядке, то скрипт добавляется в наш маркет и будет приносить вам 70% от суммы, которую вы укажете для продажи.

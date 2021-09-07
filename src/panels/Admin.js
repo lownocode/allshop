@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from '@happysanta/router';
 import { post } from 'axios';
 
 import {
@@ -17,7 +18,9 @@ import {
     SimpleCell,
 } from '@vkontakte/vkui';
 
-const Admin = ({ id, go, showSnackbar }) => {
+const Admin = ({ id, showSnackbar }) => {
+    const router = useRouter();
+
     const [offers, setOffers] = useState([]);
     const [info, setInfo] = useState({
         users_count: 0,
@@ -74,14 +77,14 @@ const Admin = ({ id, go, showSnackbar }) => {
         });
 
         if(!data.success) return showSnackbar(true, data.msg); 
-        showSnackbar(data.msg);
+        showSnackbar(false, data.msg);
     };
 
-    const reloadBackend = () => {
+    const reloadBackend = async () => {
         const { data } = await post('/admin.reloadBackend');
 
         if(!data.success) return showSnackbar(true, data.msg); 
-        showSnackbar(data.msg);
+        showSnackbar(false, data.msg);
     };
 
     useEffect(() => {
@@ -92,7 +95,7 @@ const Admin = ({ id, go, showSnackbar }) => {
     
     return(
         <Panel id={id}>
-            <PanelHeader left={<PanelHeaderBack onClick={() => go('home')}/>}>Админка</PanelHeader>
+            <PanelHeader left={<PanelHeaderBack onClick={() =>  router.popPage()}/>}>Админка</PanelHeader>
             <Header mode='secondary' indicator={<Button mode='outline' onClick={() => setOpenInformation(!openInformation)}>{openInformation ? 'Закрыть' : 'Развернуть'}</Button>}>Информация</Header>
             {openInformation && <div><CardGrid size='m'>
                 <Card>
