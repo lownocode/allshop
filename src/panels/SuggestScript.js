@@ -36,7 +36,7 @@ const SuggestScript = ({ id, showSnackbar }) => {
         });
 
         if(!data.success) return showSnackbar(true, data.msg); 
-        showSnackbar(data.msg);
+        showSnackbar(false, data.msg);
     };
     
     return(

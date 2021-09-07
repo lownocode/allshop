@@ -18,7 +18,7 @@ import {
     SimpleCell,
 } from '@vkontakte/vkui';
 
-const Admin = ({ id, go, showSnackbar }) => {
+const Admin = ({ id, showSnackbar }) => {
     const router = useRouter();
 
     const [offers, setOffers] = useState([]);
@@ -77,14 +77,14 @@ const Admin = ({ id, go, showSnackbar }) => {
         });
 
         if(!data.success) return showSnackbar(true, data.msg); 
-        showSnackbar(data.msg);
+        showSnackbar(false, data.msg);
     };
 
     const reloadBackend = async () => {
         const { data } = await post('/admin.reloadBackend');
 
         if(!data.success) return showSnackbar(true, data.msg); 
-        showSnackbar(data.msg);
+        showSnackbar(false, data.msg);
     };
 
     useEffect(() => {
