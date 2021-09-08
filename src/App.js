@@ -62,6 +62,7 @@ const App = () => {
 	const getUser = async () => {
 		const { data } = await post('/getUser');
 
+		if(!data.id) return;
 		setUser(data);
 		setPopout(null);
 	};

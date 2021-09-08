@@ -59,7 +59,7 @@ const Home = ({ id, user, getUser }) => {
 			before={<Icon36CoinsStacks2Outline width={20} height={20}/>}
 			mode='secondary'
 			onClick={() => router.pushModal(MODAL_BALANCE)}
-			>{deformNumber(user.balance)} ₽</Button>
+			>{deformNumber(user.balance || 0)} ₽</Button>
 		}
 		>
 			Главная
