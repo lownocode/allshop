@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from '@happysanta/router';
 import { post } from 'axios';
+import { createHmac } from 'crypto';
 
 import {
     Panel,
@@ -12,7 +13,7 @@ import {
     Link
 } from '@vkontakte/vkui';
 
-const Apps = ({ id }) => {
+const Apps = ({ id, showSnackbar }) => {
     const router = useRouter();
 
     const [apps, setApps] = useState(null);
@@ -26,6 +27,19 @@ const Apps = ({ id }) => {
         getProducts();
     }, []);
 
+    const buy = async (params) => {
+        const app_data = `product_id=${params.product_id}&author_id=${params.author_id}&cost=${params.cost}&type=${params.type}`;
+        const hash = createHmac('sha256', app_data).update(params.toString()).digest('hex');
+
+        const { data } = await post('/buyProduct', {
+            hash: hash,
+            product_id: params.product_id
+        });
+
+        if(!data.success) return showSnackbar(true, data.msg); 
+        showSnackbar(false, 'Товар приобретён!');
+    };
+
     return(
         <Panel id={id}>
             <PanelHeader left={<PanelHeaderBack onClick={() => router.popPage()}/>}
@@ -37,7 +51,7 @@ const Apps = ({ id }) => {
                     apps.map(app => {
                         if(app.type != 'vk_app') return;
                         return(
-                            <Card mode='outline'>
+                            <Card mode='outline' key={app.product_id}>
                                 <div style={{margin: 12}}>
                                 <div style={{marginRight:5}}>
                                     <b style={{letterSpacing: 1, textTransform: 'uppercase', marginRight: 5}}>{app.title}</b>
@@ -52,7 +66,7 @@ const Apps = ({ id }) => {
                                         Описание: {app.description}
                                 </div>
                                 <div style={{textAlign: 'left', display: 'flex', width: '100%', marginTop: 10}}>
-                                    <Button>Купить</Button>
+                                    <Button onClick={() => buy(app)}>Купить</Button>
                                     <div style={{
                                         color: 'var(--text_secondary)',
                                         fontSize: 14,
