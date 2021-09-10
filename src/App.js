@@ -126,10 +126,12 @@ const App = () => {
 
 					<Apps
 					id={PANEL_APPS}
+					showSnackbar={showSnackbar}
 					/>
 
 					<Bots
 					id={PANEL_BOTS}
+					showSnackbar={showSnackbar}
 					setPopout={setPopout}
 					/>
 
