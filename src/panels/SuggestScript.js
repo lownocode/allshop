@@ -10,10 +10,17 @@ import {
     Input,
     Textarea,
     Button,
-    NativeSelect,
+    Select,
     Div,
-    FormStatus
+    FormStatus,
+    File,
+    CustomSelectOption
 } from '@vkontakte/vkui';
+import { 
+    Icon24DocumentOutline,
+    Icon24LogoVkOutline,
+    Icon24RobotOutline
+} from '@vkontakte/icons';
 
 const SuggestScript = ({ id, showSnackbar }) => {
     const router = useRouter();
@@ -22,24 +29,50 @@ const SuggestScript = ({ id, showSnackbar }) => {
     const [descriptionNewProduct, setDescriptionNewProduct] = useState('');
     const [typeNewProduct, setTypeNewProduct] = useState('');
     const [demoLinkNewProduct, setDemoLinkNewProduct] = useState('');
-    const [sourceNewProduct, setSourceNewProduct] = useState('');
     const [sumNewProduct, setSumNewProduct] = useState(null);
+    const [file, setFile] = useState(null);
+
+    const validFileTypes = [
+        'x-java-archive', 'x-tar', 'x-bzip',
+        'gzip', 'x-lzma', 'vnd.rar', 'zip'
+    ];
 
     const sendSuggest = async () => {
-        const { data } = await post('/sendSuggest', {
-            demo_link: demoLinkNewProduct,
-            source: sourceNewProduct,
-            type: typeNewProduct,
-            sum: Number(sumNewProduct),
-            description: descriptionNewProduct,
-            title: titleNewProduct
+        if(!file) {
+            return showSnackbar(true, 'Файл не прикреплен');
+        }
+
+        else if(file.size > 157286400) {
+            return showSnackbar(true, 'Размер файла не должен превышать 150 MB.');
+        }
+
+        else if(validFileTypes.findIndex(t => t === file.type.split('/')[1] || '') === -1) {
+            return showSnackbar(true, 'Неподдиржеваемый тип файла.');
+        }
+
+        const formData = new FormData();
+        console.log(file)
+        formData.append(file.type, file);
+        
+        const { data } = await post('/sendSuggest', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                params: `demo_link=${demoLinkNewProduct}&type=${typeNewProduct}&sum=${sumNewProduct}&description=${descriptionNewProduct}&title=${titleNewProduct}`,
+            }
         });
 
         if(!data.success) return showSnackbar(true, data.msg); 
         showSnackbar(false, data.msg);
+        router.popPage();
+    };
+
+    const readableBytes = (bytes) => {
+        let i = Math.floor(Math.log(bytes) / Math.log(1024)),
+        sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        return (bytes / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + sizes[i];
     };
     
-    return(
+    return (
         <Panel id={id}>
             <PanelHeader left={<PanelHeaderBack onClick={() => router.popPage()}/>}>Предложить скрипт</PanelHeader>
             <FormItem>
@@ -60,14 +93,26 @@ const SuggestScript = ({ id, showSnackbar }) => {
                 />
             </FormItem>
             <FormItem top='Тип товара'>
-                <NativeSelect
+                <Select
                 placeholder='Не выбран'
                 onChange={(e) => setTypeNewProduct(e.target.value)}
                 value={typeNewProduct}
-                >
-                    <option value='vk_app'>VK MINI APP</option>
-                    <option value='vk_bot'>VK BOT</option>
-                </NativeSelect>
+                options={[
+                    {
+                        label: 'VK MINI APP',
+                        value: 'vk_app',
+                        before: <Icon24LogoVkOutline/>
+                    },
+                    {
+                        label: 'VK BOT',
+                        value: 'vk_bot',
+                        before: <Icon24RobotOutline/>
+                    }
+                ]}
+                renderOption={({ option, ...restProps }) => (
+                    <CustomSelectOption {...restProps} before={option.before} />
+                )}
+                />
             </FormItem>
             <FormItem top='Демо (ссылка, можно оставить пустым)'>
                 <Input
@@ -75,11 +120,20 @@ const SuggestScript = ({ id, showSnackbar }) => {
                 onChange={(e) => setDemoLinkNewProduct(e.target.value)}
                 />
             </FormItem>
-            <FormItem top='Ссылка на исходник'>
-                <Input
-                placeholder='Введите ссылку'
-                onChange={(e) => setSourceNewProduct(e.target.value)}
-                />
+            <FormItem
+            top='Архив с исходными файлами' 
+            bottom={file && file.name 
+            ? <b style={{ color: '#FFF', background: '#F19312', padding: 3, borderRadius: 4, fontSize: 10 }}>{file.name} ({readableBytes(file.size)})</b> 
+            : <div>Валидные форматы: {validFileTypes.join(', ')}</div>}>
+                <File
+                before={<Icon24DocumentOutline/>}
+                onChange={e => setFile(e.target.files[0])}
+                controlSize="l"
+                stretched
+                mode='secondary'
+                >
+                    Выбрать файл
+                </File>
             </FormItem>
             <FormItem top='Стоимость товара'>
                 <Input

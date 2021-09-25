@@ -20,12 +20,12 @@ import '@vkontakte/vkui/dist/vkui.css';
 import './App.css';
 
 import Home from './panels/Home';
-import Apps from './panels/Apps';
-import Bots from './panels/Bots';
+import Goods from './panels/Goods';
 import My_purchases from './panels/My_purchases';
 import History from './panels/History';
 import Admin from './panels/Admin';
 import SuggestScript from './panels/SuggestScript';
+import Reviews from './panels/Reviews';
 
 import {
 	VIEW_MAIN,
@@ -36,11 +36,11 @@ import {
 
 	PANEL_HOME,
 	PANEL_ADMIN,
-	PANEL_BOTS,
-	PANEL_APPS,
+	PANEL_GOODS,
 	PANEL_HISTORY,
 	PANEL_MY_PURCHASES,
 	PANEL_SUGGEST_SCRIPT,
+	PANEL_REVIEWS
 } from './routers';
 
 import { Balance } from './modals/Balance';
@@ -124,15 +124,10 @@ const App = () => {
 					getUser={getUser}
 					/>
 
-					<Apps
-					id={PANEL_APPS}
+					<Goods
+					id={PANEL_GOODS}
+					user={user}
 					showSnackbar={showSnackbar}
-					/>
-
-					<Bots
-					id={PANEL_BOTS}
-					showSnackbar={showSnackbar}
-					setPopout={setPopout}
 					/>
 
 					<My_purchases
@@ -154,6 +149,10 @@ const App = () => {
 					<SuggestScript
 					id={PANEL_SUGGEST_SCRIPT}
 					showSnackbar={showSnackbar}
+					/>
+
+					<Reviews
+					id={PANEL_REVIEWS}
 					/>
 				</View>
 			</AppRoot>

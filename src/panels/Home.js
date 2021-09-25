@@ -16,7 +16,7 @@ import {
 import { 
 	Icon36CoinsStacks2Outline,
 	Icon24LogoVkOutline,
-	Icon24RobotOutline,
+	Icon24ShoppingCartOutline,
 	Icon16Stars,
 	Icon24ChevronRight,
 	Icon28MarketOutline,
@@ -32,8 +32,7 @@ import {
 	PAGE_HISTORY,
 	PAGE_ADMIN,
 	PAGE_SUGGEST_SCRIPT,
-	PAGE_APPS,
-	PAGE_BOTS
+	PAGE_GOODS,
 } from '../routers';
 
 const Home = ({ id, user, getUser }) => {
@@ -65,51 +64,26 @@ const Home = ({ id, user, getUser }) => {
 			Главная
 		</PanelHeader>
 		<PullToRefresh isFetching={isFetching} onRefresh={onRefresh}>
-		<Banner
-		header={<div style={{display: 'flex', fontWeight: 'bold'}}>
-			<Icon24LogoVkOutline width={24} height={24} style={{margin: '-1.7px 3px 0 0'}}/>
-			VK Mini Apps
-				</div>}
-		subheader='Мини-приложения на разный вкус'
-		actions={<Button
-		style={{background: '#fff', color: '#000'}}
-		onClick={() => router.pushPage(PAGE_APPS)}
-		>Открыть</Button>}
-        mode='image'
-        background={
-		<div
-		style={{
-			background: '#7B68EE',
-			backgroundPosition: 'right bottom',
-			backgroundSize: 760,
-			backgroundRepeat: 'no-repeat',
-			boxShadow: 'inset 0px 0px 10px 8px rgba(0,0,0,0.055)',
-			borderRadius: 15
-		}}
-		/>}
-		/>
 
 		<Banner
-		style={{marginTop: -5}}
 		header={<div style={{display: 'flex', fontWeight: 'bold'}}>
-			<Icon24RobotOutline width={24} height={24} style={{margin: '-1.7px 3px 0 0'}}/>
-			VK Bots
+			<Icon24ShoppingCartOutline width={24} height={24} style={{margin: '-1.7px 3px 0 0'}}/>
+			Товары
 				</div>}
-		subheader='Лучшие боты ВК'
+		subheader='Боты, приложения, все, что угодно на любой вкус, всё по лучшим ценам!'
 		actions={<Button
-		style={{background: '#fff', color: '#000'}}
-		onClick={() => router.pushPage(PAGE_BOTS)}
+		style={{background: '#fff', color: '#000', borderRadius: 15}}
+		onClick={() => router.pushPage(PAGE_GOODS)}
 		>Открыть</Button>}
         mode='image'
         background={
 		<div
 		style={{
-			background: '#4682B4',
+			background: '#1CC5EA',
 			backgroundPosition: 'right bottom',
 			backgroundSize: 760,
 			backgroundRepeat: 'no-repeat',
-			boxShadow: 'inset 0px 0px 10px 8px rgba(0,0,0,0.055)',
-			borderRadius: 15,
+			borderRadius: 15
 		}}
 		/>}
 		/>
