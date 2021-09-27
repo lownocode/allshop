@@ -23,15 +23,8 @@ import {
     PAGE_REVIEWS
 } from '../routers.js';
 
-const Goods = ({ id, showSnackbar, user }) => {
+const Goods = ({ id, showSnackbar, user, products, getProducts }) => {
     const router = useRouter();
-
-    const [apps, setApps] = useState(null);
-
-    const getProducts = async () => {
-        const { data } = await post('/getProducts');
-        setApps(data);
-    };
 
     useEffect(() => {
         getProducts();
@@ -82,36 +75,36 @@ const Goods = ({ id, showSnackbar, user }) => {
                 Товары
             </PanelHeader>
             <CardGrid size='l' style={{marginTop: 10}}>
-            {apps &&
-                    apps.map(app => {
+            {products &&
+                    products.map(product => {
                         return(
-                            <Card mode='outline' key={app.product_id}>
+                            <Card mode='outline' key={product.product_id}>
                                 <div style={{ margin: 12 }}>
                                 <div style={{ fontSize: 11, position: 'absolute', right: 5, color: 'var(--text_secondary)' }}>
-                                    {convertDate(app.date || 0)}
+                                    {convertDate(product.createdAt || 0)}
                                 </div>
                                 <div>
                                     <b style={{ display: 'flex', letterSpacing: 1, textTransform: 'uppercase', marginRight: 5 }}>
-                                        <Icon16New style={{ marginLeft: -4, marginTop: 2 }} fill={getType(app.type).background}/>
-                                        <div style={{ marginRight: 5, background: getType(app.type).background, color: getType(app.type).color, padding: 4, borderRadius: 6, fontSize: 10, boxShadow: '0px 0px 0px 1px white' }}>{getType(app.type).name}</div>
-                                        {app.title}
+                                        <Icon16New style={{ marginLeft: -4, marginTop: 2 }} fill={getType(product.type).background}/>
+                                        <div style={{ marginRight: 5, background: getType(product.type).background, color: getType(product.type).color, padding: 4, borderRadius: 6, fontSize: 10, boxShadow: '0px 0px 0px 1px white' }}>{getType(product.type).name}</div>
+                                        {product.title}
                                     </b>
                                 </div>
                                 <div style={{ color: 'var(--text_secondary)', fontSize: 16, margin: '3px 0 3px 0'}}>
-                                    {app.demo_link && <div>Демо: <Link style={{ textTransform: 'lowercase' }} href={app.demo_link}>{app.demo_link}</Link></div>}
-                                    Описание: {app.description}
+                                    {product.demo_link && <div>Демо: <Link style={{ textTransform: 'lowercase' }} href={product.demo_link}>{product.demo_link}</Link></div>}
+                                    Описание: {product.description}
                                 </div>
                                 <div style={{textAlign: 'left', display: 'flex', width: '100%', marginTop: 10}}>
-                                    <Button onClick={() => buy(app)} style={{ color: '#fff', background: '#1C77EA' }}>Купить</Button>
+                                    <Button onClick={() => buy(product)} style={{ color: '#fff', background: '#1C77EA' }}>Купить</Button>
                                     <div style={{
                                         color: 'var(--text_secondary)',
                                         fontSize: 14,
                                         margin: '5px 0 0 5px'
-                                    }}>Цена: {app.cost} Р.</div>
+                                    }}>Цена: {product.cost} Р.</div>
                                 </div>
                                 <div style={{textAlign: 'right', fontSize: 14, marginTop: -20}}>
-                                    Автор: {app.author_id != 0 ? 
-                                    <Link href={`https://vk.com/id${app.author_id}`}>{app.author_id === user.id ? <b style={{ background: '#1367FE', color: '#fff', borderRadius: 5, padding: '2px 4px' }}>вы</b> : `@id${app.author_id}`}</Link> : 
+                                    Автор: {product.author_id != 0 ? 
+                                    <Link href={`https://vk.com/id${product.author_id}`}>{product.author_id === user.id ? <b style={{ background: '#1367FE', color: '#fff', borderRadius: 5, padding: '2px 4px' }}>вы</b> : `@id${product.author_id}`}</Link> : 
                                     <i style={{color: '#1367FE'}}>All Shop</i>}
                                 </div>
                                 <br/>
@@ -120,7 +113,7 @@ const Goods = ({ id, showSnackbar, user }) => {
                                     <Button
                                     before={<Icon24StarsOutline/>}
                                     mode='tertiary'
-                                    onClick={() => router.pushPage(PAGE_REVIEWS, { pid: (app.product_id).toString() })}
+                                    onClick={() => router.pushPage(PAGE_REVIEWS, { pid: (product.uid).toString() })}
                                     >
                                         Отзывы
                                     </Button>
@@ -144,7 +137,7 @@ const Goods = ({ id, showSnackbar, user }) => {
                                     {
                                         tags.map(tag => {
                                             return (
-                                                <small style={{ margin: '3px 5px 0 0', background: 'linear-gradient(40deg, #3E59FE, #3C42D0)', padding: '2px 3.5px', borderRadius: 6, color: '#fff' }}>
+                                                <small style={{ margin: '3px 5px 0 0', background: 'linear-gradient(45deg, rgb(62, 127, 254) 33%, rgb(96, 106, 208))', padding: '2.5px 7px', borderRadius: 11, color: '#fff', fontSize: 12 }}>
                                                     {tag}
                                                 </small>
                                             )

@@ -58,6 +58,7 @@ const App = () => {
 		purchases: [],
 		admin: false
 	});
+	const [products, setProducts] = useState(null);
 
 	const getUser = async () => {
 		const { data } = await post('/getUser');
@@ -67,8 +68,14 @@ const App = () => {
 		setPopout(null);
 	};
 
+	const getProducts = async () => {
+        const { data } = await post('/getProducts');
+        setProducts(data);
+    };
+
 	useEffect(() => {
-		getUser()
+		getUser();
+		getProducts();
 	}, []);
 
 	const showSnackbar = (error, text) => {
@@ -128,6 +135,8 @@ const App = () => {
 					id={PANEL_GOODS}
 					user={user}
 					showSnackbar={showSnackbar}
+					products={products}
+					getProducts={getProducts}
 					/>
 
 					<My_purchases
@@ -153,6 +162,8 @@ const App = () => {
 
 					<Reviews
 					id={PANEL_REVIEWS}
+					user={user}
+					showSnackbar={showSnackbar}
 					/>
 				</View>
 			</AppRoot>

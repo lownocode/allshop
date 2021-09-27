@@ -57,7 +57,7 @@ const SuggestScript = ({ id, showSnackbar }) => {
         const { data } = await post('/sendSuggest', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                params: `demo_link=${demoLinkNewProduct}&type=${typeNewProduct}&sum=${sumNewProduct}&description=${descriptionNewProduct}&title=${titleNewProduct}`,
+                params: `demo_link=${demoLinkNewProduct}&type=${typeNewProduct}&cost=${sumNewProduct}&description=${descriptionNewProduct}&title=${titleNewProduct}`,
             }
         });
 
