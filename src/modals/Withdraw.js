@@ -10,7 +10,6 @@ import {
     Input,
     Div
 } from '@vkontakte/vkui';
-import { MODAL_BALANCE } from '../routers';
 
 export const Withdraw = ({ id, showSnackbar, getUser }) => {
     const router = useRouter();
@@ -36,7 +35,7 @@ export const Withdraw = ({ id, showSnackbar, getUser }) => {
     return (
         <ModalCard
         id={id}
-        onClose={() => router.pushModal(MODAL_BALANCE)}
+        onClose={() => router.popPage()}
         >
             <FormItem top="Выберите платежную систему">
                 <NativeSelect onChange={(e) => setWithdrawSystem(e.target.value)}>

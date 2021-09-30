@@ -45,7 +45,7 @@ export const Balance = ({ id, user }) => {
             </Card>
             <Banner
             header={<div style={{display: 'flex', fontWeight: 'bold'}}>
-                <Icon36CoinsStacks3Outline width={24} height={24}/>
+                <Icon36CoinsStacks3Outline width={24} height={24} style={{ margin: '-4px 4px 0 0' }} />
                 Пополнение баланса
                 </div>}
             subheader='Пополнение любым удобным для Вас способом'
@@ -62,15 +62,14 @@ export const Balance = ({ id, user }) => {
                     backgroundPosition: 'right bottom',
                     backgroundSize: 760,
                     transition: '420ms',
-                    backgroundRepeat: 'no-repeat',
-                    boxShadow: 'inset 0px 0px 10px 8px rgba(0,0,0,0.085)'
+                    backgroundRepeat: 'no-repeat'
                 }}
             />}
             />
             
             <Banner
             header={<div style={{display: 'flex', fontWeight: 'bold'}}>
-                <Icon24MoneySendOutline width={24} height={24}/>
+                <Icon24MoneySendOutline width={24} height={24} style={{ margin: '-4px 4px 0 0' }} />
                 Вывод баланса
                 </div>}
             subheader='Вывод на любой удобный для Вас кошелёк'
@@ -88,7 +87,6 @@ export const Balance = ({ id, user }) => {
                     backgroundSize: 760,
                     transition: '420ms',
                     backgroundRepeat: 'no-repeat',
-                    boxShadow: 'inset 0px 0px 10px 8px rgba(0,0,0,0.085)'
                 }}
             />}
             />

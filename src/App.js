@@ -97,7 +97,7 @@ const App = () => {
 	};
 
 	const modals = (
-		<ModalRoot onClose={() => router.popPage()} activeModal={location.getModalId()}>
+		<ModalRoot onClose={() => router.popPageIfModal()} activeModal={location.getModalId()}>
 			<Balance 
 			id={MODAL_BALANCE} 
 			user={user} 

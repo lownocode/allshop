@@ -1,6 +1,6 @@
 .anime-gradient {
-    background: linear-gradient(149deg, rgba(19,193,254,1) 0%, rgb(5, 123, 192) 42%, rgb(24, 95, 187) 72%, rgb(55, 91, 209) 100%);
-    animation: gradient 15s linear infinite;
+    background: linear-gradient(149deg, rgb(32, 124, 211) 0%, rgb(130, 58, 231) 42%, rgb(170, 15, 190) 72%, rgb(0, 217, 255) 100%);
+    animation: gradient 10s infinite alternate linear; 
     background-size: 400%;
 }
 

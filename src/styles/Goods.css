@@ -1,6 +1,6 @@
 .tag {
-    background: linear-gradient(45deg, rgb(62, 127, 254) 0%, rgb(65, 123, 231) 42%, rgb(28, 88, 255) 72%, rgb(87, 63, 175) 100%);
-    animation: gradient 15s linear infinite;
+    background: linear-gradient(149deg, rgb(20, 114, 255) 0%, rgba(106,57,175,1) 42%, rgba(187,24,148,1) 72%, rgba(115,53,134,1) 100%);
+    animation: gradient 9s linear infinite;
     background-size: 400%;
     margin: 3px 5px 0 0; 
     padding: 2.5px 7px;

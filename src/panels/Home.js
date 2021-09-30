@@ -79,15 +79,7 @@ const Home = ({ id, user, getUser }) => {
 			onClick={() => router.pushPage(PAGE_GOODS)}
 			>Открыть</Button>}
 			mode='image'
-			background={
-			<div
-			className='anime-gradient'
-			style={{
-				backgroundPosition: 'right bottom',
-				backgroundSize: 760,
-				backgroundRepeat: 'no-repeat',
-			}}
-			/>}
+			background={<div className='anime-gradient'/>}
 			/>
 
 			<CardGrid size='l'>
