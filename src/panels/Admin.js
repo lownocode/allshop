@@ -16,6 +16,7 @@ import {
     CardGrid,
     Card,
     SimpleCell,
+    Group
 } from '@vkontakte/vkui';
 
 const Admin = ({ id, showSnackbar }) => {
@@ -93,96 +94,98 @@ const Admin = ({ id, showSnackbar }) => {
         setInterval(getInfo, 5000);
     }, []);
     
-    return(
+    return (
         <Panel id={id}>
-            <PanelHeader left={<PanelHeaderBack onClick={() =>  router.popPage()}/>}>Админка</PanelHeader>
-            <Header mode='secondary' indicator={<Button mode='outline' onClick={() => setOpenInformation(!openInformation)}>{openInformation ? 'Закрыть' : 'Развернуть'}</Button>}>Информация</Header>
-            {openInformation && <div><CardGrid size='m'>
-                <Card>
-                    <SimpleCell
-                    disabled
-                    description='Пользователей всего'
-                    ><b>{info.users_count}</b></SimpleCell>
-                </Card>
-                <Card>
-                    <SimpleCell
-                    disabled
-                    description='Нагрузка'
-                    ><b>{info.loadavg[0].toFixed(4) || 0}, {info.loadavg[1].toFixed(4) || 0}, {info.loadavg[2].toFixed(4) || 0}</b></SimpleCell>
-                </Card>
-                <Card>
-                    <SimpleCell
-                    disabled
-                    description='Использование ОЗУ'
-                    ><b>{(info.mem.free / 1000000 || 0).toFixed(0)}MB из {((info.mem.total / 1000000) / 1024 || 0).toFixed(2)}GB</b></SimpleCell>
-                </Card>
-                <Card>
-                    <SimpleCell
-                    disabled
-                    description='Время работы сервера'
-                    ><b>{unixStampLeft((info.uptime || 0).toFixed(0))}</b></SimpleCell>
-                </Card>
-            </CardGrid>
-            <Div>
-                <Button stretched mode='outline' size='l' onClick={() => reloadBackend()}>
-                    Перезагрузить бекенд
-                </Button>
-            </Div>
-            </div>}
-            <Header mode='secondary' indicator={<Button mode='outline' onClick={() => setOpenAddProduct(!openAddProduct)}>{openAddProduct ? 'Закрыть' : 'Развернуть'}</Button>}>Добавить товар</Header>
-            {openAddProduct ? 
-            <div><FormItem top='Название'>
-                <Input
-                placeholder='Введите название'
-                onChange={(e) => setTitleNewProduct(e.target.value)}
-                />
-            </FormItem>
-            <FormItem top='Описание'>
-                <Textarea
-                placeholder='Введите описание'
-                onChange={(e) => setDescriptionNewProduct(e.target.value)}
-                />
-            </FormItem>
-            <FormItem top='Тип товара'>
-                <NativeSelect
-                placeholder='Не выбран'
-                onChange={(e) => setTypeNewProduct(e.target.value)}
-                value={typeNewProduct}
-                >
-                    <option value='vk_app'>VK MINI APP</option>
-                    <option value='vk_bot'>VK BOT</option>
-                </NativeSelect>
-            </FormItem>
-            <FormItem top='Демо (ссылка) (можно оставить пустым)'>
-                <Input
-                placeholder='Введите ссылку'
-                onChange={(e) => setDemoLinkNewProduct(e.target.value)}
-                />
-            </FormItem>
-            <FormItem top='Ссылка на исходник'>
-                <Input
-                placeholder='Введите ссылку'
-                onChange={(e) => setSourceNewProduct(e.target.value)}
-                />
-            </FormItem>
-            <FormItem top='Стоимость товара'>
-                <Input
-                placeholder='Введите стоимость'
-                type='number'
-                onChange={(e) => setSumNewProduct(e.target.value)}
-                />
-            </FormItem>
-            <Div>
-                <Button
-                onClick={() => publishNewProduct()}
-                stretched
-                mode='commerce'
-                size='l'
-                >
-                    Добавить товар
-                </Button>
-            </Div>
-            </div> : null}
+            <Group>
+                <PanelHeader left={<PanelHeaderBack onClick={() =>  router.popPage()}/>}>Админка</PanelHeader>
+                <Header mode='secondary' indicator={<Button mode='outline' onClick={() => setOpenInformation(!openInformation)}>{openInformation ? 'Закрыть' : 'Развернуть'}</Button>}>Информация</Header>
+                {openInformation && <div><CardGrid size='m'>
+                    <Card>
+                        <SimpleCell
+                        disabled
+                        description='Пользователей всего'
+                        ><b>{info.users_count}</b></SimpleCell>
+                    </Card>
+                    <Card>
+                        <SimpleCell
+                        disabled
+                        description='Нагрузка'
+                        ><b>{info.loadavg[0].toFixed(4) || 0}, {info.loadavg[1].toFixed(4) || 0}, {info.loadavg[2].toFixed(4) || 0}</b></SimpleCell>
+                    </Card>
+                    <Card>
+                        <SimpleCell
+                        disabled
+                        description='Использование ОЗУ'
+                        ><b>{(info.mem.free / 1000000 || 0).toFixed(0)}MB из {((info.mem.total / 1000000) / 1024 || 0).toFixed(2)}GB</b></SimpleCell>
+                    </Card>
+                    <Card>
+                        <SimpleCell
+                        disabled
+                        description='Время работы сервера'
+                        ><b>{unixStampLeft((info.uptime || 0).toFixed(0))}</b></SimpleCell>
+                    </Card>
+                </CardGrid>
+                <Div>
+                    <Button stretched mode='outline' size='l' onClick={() => reloadBackend()}>
+                        Перезагрузить бекенд
+                    </Button>
+                </Div>
+                </div>}
+                <Header mode='secondary' indicator={<Button mode='outline' onClick={() => setOpenAddProduct(!openAddProduct)}>{openAddProduct ? 'Закрыть' : 'Развернуть'}</Button>}>Добавить товар</Header>
+                {openAddProduct ? 
+                <div><FormItem top='Название'>
+                    <Input
+                    placeholder='Введите название'
+                    onChange={(e) => setTitleNewProduct(e.target.value)}
+                    />
+                </FormItem>
+                <FormItem top='Описание'>
+                    <Textarea
+                    placeholder='Введите описание'
+                    onChange={(e) => setDescriptionNewProduct(e.target.value)}
+                    />
+                </FormItem>
+                <FormItem top='Тип товара'>
+                    <NativeSelect
+                    placeholder='Не выбран'
+                    onChange={(e) => setTypeNewProduct(e.target.value)}
+                    value={typeNewProduct}
+                    >
+                        <option value='vk_app'>VK MINI APP</option>
+                        <option value='vk_bot'>VK BOT</option>
+                    </NativeSelect>
+                </FormItem>
+                <FormItem top='Демо (ссылка) (можно оставить пустым)'>
+                    <Input
+                    placeholder='Введите ссылку'
+                    onChange={(e) => setDemoLinkNewProduct(e.target.value)}
+                    />
+                </FormItem>
+                <FormItem top='Ссылка на исходник'>
+                    <Input
+                    placeholder='Введите ссылку'
+                    onChange={(e) => setSourceNewProduct(e.target.value)}
+                    />
+                </FormItem>
+                <FormItem top='Стоимость товара'>
+                    <Input
+                    placeholder='Введите стоимость'
+                    type='number'
+                    onChange={(e) => setSumNewProduct(e.target.value)}
+                    />
+                </FormItem>
+                <Div>
+                    <Button
+                    onClick={() => publishNewProduct()}
+                    stretched
+                    mode='commerce'
+                    size='l'
+                    >
+                        Добавить товар
+                    </Button>
+                </Div>
+                </div> : null}
+            </Group>
         </Panel>
     )
 };

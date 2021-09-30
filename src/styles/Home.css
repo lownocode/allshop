@@ -1,0 +1,17 @@
+.anime-gradient {
+    background: linear-gradient(149deg, rgba(19,193,254,1) 0%, rgb(5, 123, 192) 42%, rgb(24, 95, 187) 72%, rgb(55, 91, 209) 100%);
+    animation: gradient 15s linear infinite;
+    background-size: 400%;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 80% 0%;
+    }
+    50% {
+        background-position: 20% 100%;
+    }
+    100% {
+        background-position: 80% 0%;
+    }
+}

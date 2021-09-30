@@ -17,6 +17,7 @@ import {
 } from '@vkontakte/icons';
 
 import '@vkontakte/vkui/dist/vkui.css';
+import '@vkontakte/vkui/dist/unstable.css'
 import './App.css';
 
 import Home from './panels/Home';

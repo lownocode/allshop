@@ -25,7 +25,7 @@ bridge.subscribe(({ detail: { type, data }}) => {
 });
 
 ReactDOM.render(<RouterContext.Provider value={router}>
-  <ConfigProvider isWebView={true}>
+  <ConfigProvider isWebView={true} platform='ios'>
     <App />
   </ConfigProvider>
 </RouterContext.Provider>, document.getElementById("root"));

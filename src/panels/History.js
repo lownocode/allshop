@@ -7,7 +7,8 @@ import {
     PanelHeaderBack,
     Div,
     SimpleCell,
-    Avatar
+    Avatar,
+    Group
 } from '@vkontakte/vkui';
 import { 
     Icon12Cake,
@@ -21,8 +22,8 @@ const History = ({ id, user }) => {
 
     return(
         <Panel id={id}>
+            <Group>
             <PanelHeader left={<PanelHeaderBack onClick={() => router.popPage()}/>}>История профиля</PanelHeader>
-            <Div>
                 {
                     user.history.map(history => {
                         switch(history.type) {
@@ -81,7 +82,7 @@ const History = ({ id, user }) => {
                         }
                     })
                 }
-            </Div>
+            </Group>
         </Panel>
     )
 };
@@ -89,7 +90,7 @@ const History = ({ id, user }) => {
 export default History;
 
 
-function timeConverter(UNIX_timestamp){
+const timeConverter = (UNIX_timestamp) => {
     var a = new Date(UNIX_timestamp);
     var year = a.getFullYear();
     var date = a.getDate() < 10 ? '0' + a.getDate() : a.getDate();

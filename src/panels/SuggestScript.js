@@ -14,8 +14,10 @@ import {
     Div,
     FormStatus,
     File,
-    CustomSelectOption
+    CustomSelectOption,
+    Group
 } from '@vkontakte/vkui';
+import { ChipsSelect } from '@vkontakte/vkui/dist/unstable';
 import { 
     Icon24DocumentOutline,
     Icon24LogoVkOutline,
@@ -31,6 +33,15 @@ const SuggestScript = ({ id, showSnackbar }) => {
     const [demoLinkNewProduct, setDemoLinkNewProduct] = useState('');
     const [sumNewProduct, setSumNewProduct] = useState(null);
     const [file, setFile] = useState(null);
+    const [selectedTags, setSelectedTags] = useState([]);
+    
+    const tags = [
+        {label: 'Хорошая цена', value: 'good_cost'}, {label: 'Большой проект', value: 'big_project'}, {label: 'Лучшее', value: 'best'},
+        {label: 'Хороший код', value: 'good_code'}, {label: 'Скидка', value: 'discount'}, {label: 'Отзывчивый автор', value: 'responsive_author'},
+        {label: 'Эксклюзивное', value: 'exclusive'},
+        {label: 'Java', value: 'java'}, {label: 'JavaScript', value: 'javascript'}, {label: 'Python', value: 'python'},
+        {label: 'Node JS', value: 'node_js'}
+    ];
 
     const validFileTypes = [
         'x-java-archive', 'x-tar', 'x-bzip',
@@ -57,7 +68,7 @@ const SuggestScript = ({ id, showSnackbar }) => {
         const { data } = await post('/sendSuggest', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                params: `demo_link=${demoLinkNewProduct}&type=${typeNewProduct}&cost=${sumNewProduct}&description=${descriptionNewProduct}&title=${titleNewProduct}`,
+                params: `demo_link=${demoLinkNewProduct}&type=${typeNewProduct}&cost=${sumNewProduct}&description=${descriptionNewProduct}&title=${titleNewProduct}&tags=${selectedTags.map(tag => tag.value).join(',')}`
             }
         });
 
@@ -71,13 +82,20 @@ const SuggestScript = ({ id, showSnackbar }) => {
         sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
         return (bytes / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + sizes[i];
     };
+
+    const selectTags = e => {
+        setSelectedTags(e);
+    };
     
     return (
         <Panel id={id}>
+            <Group>
             <PanelHeader left={<PanelHeaderBack onClick={() => router.popPage()}/>}>Предложить скрипт</PanelHeader>
             <FormItem>
             <FormStatus header="Обратите внимание">
-                После того, как вы предложите скрипт, он отправится на проверку модерации, и, если если всё в порядке, то скрипт добавляется в наш маркет и будет приносить вам 70% от суммы, которую вы укажете для продажи.
+                После того, как вы предложите скрипт, он отправится на проверку модерации 
+                и если если всё в порядке, то скрипт добавляется в наш маркет и будет приносить 
+                вам 70% от суммы, которую вы укажете для продажи.
             </FormStatus>
             </FormItem>
             <FormItem top='Название'>
@@ -120,6 +138,15 @@ const SuggestScript = ({ id, showSnackbar }) => {
                 onChange={(e) => setDemoLinkNewProduct(e.target.value)}
                 />
             </FormItem>
+            <FormItem top='Выберите теги'>
+                <ChipsSelect
+                value={selectedTags}
+                onChange={selectTags}
+                options={tags}
+                placeholder='Не выбрано ни одного тега'
+                emptyText='Вы выбрали все теги'
+                />
+            </FormItem>
             <FormItem
             top='Архив с исходными файлами' 
             bottom={file && file.name 
@@ -152,6 +179,7 @@ const SuggestScript = ({ id, showSnackbar }) => {
                     Добавить товар
                 </Button>
             </Div>
+            </Group>
         </Panel>
     )
 };
